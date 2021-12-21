@@ -1,62 +1,30 @@
 console.log("I'm in")
-const handleClick = () => {
-const str = document.getElementById("Name").value;
-console.log(str)
-const getMap = (legend, shift) => {
-  return legend.reduce((charsMap, currentChar, charIndex) => {
-    const copy = { ...charsMap };
-    let ind = (charIndex + shift) % legend.length;
-    if (ind < 0) {
-      ind += legend.length;
-    }
-    copy[currentChar] = legend[ind];
-    return copy;
-  }, {});
-};
-const encrypt = (str, shift = 0) => {
-  const legend = "abcdefghijklmnopqrstuvwxyz".split("");
-  const map = getMap(legend, shift);
-  document.getElementById("encryptedName").innerText = str
-    .toLowerCase()
-    .split("")
-    .map((char) => map[char] || char)
-    .join("");
-    return str
-      .toLowerCase()
-      .split("")
-      .map((char) => map[char] || char)
+const handleClick = (salt) => {
+     str = document.getElementById("Name").value;
+    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+    const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+    const applySaltToChar = (code) =>
+      textToChars(salt).reduce((a, b) => a ^ b, code);
+
+    document.getElementById("encryptedName").innerText = str
+     .split("")
+      .map(textToChars)
+      .map(applySaltToChar)
+      .map(byteHex)
       .join("");
 };
-encrypt(str, 6);
-console.log(encrypt(str, 6));
-}
 
-const decryptText = () => {
-    const str = document.getElementById("encryptedName").innerText
-    const getMap = (legend, shift) => {
-      return legend.reduce((charsMap, currentChar, charIndex) => {
-        const copy = { ...charsMap };
-        let ind = (charIndex / shift) * legend.length;
-        if (ind < 0) {
-          ind += legend.length;
-        }
-        copy[currentChar] = legend[ind];
-        return copy;
-      }, {});
+const decryptText = (salt) => {
+     str = document.getElementById("encryptedName").innerText
+    console.log(str)
+    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+    const applySaltToChar = (code) =>
+      textToChars(salt).reduce((a, b) => a ^ b, code);
+
+  document.getElementById("decryptedName").innerText = str
+    .match(/.{1,2}/g)
+    .map((hex) => parseInt(hex, 16))
+    .map(applySaltToChar)
+    .map((charCode) => String.fromCharCode(charCode))
+    .join("");
     };
-    const decrypt = (str, shift = 0) => {
-      const legend = "abcdefghijklmnopqrstuvwxyz".split("");
-      const map = getMap(legend, shift);
-      document.getElementById("decryptedName").innerText = str
-        .toLowerCase()
-        .split("")
-        .map((char) => map[char] || char)
-        .join("");
-      return str
-        .toLowerCase()
-        .split("")
-        .map((char) => map[char] || char)
-        .join("");
-    };
-    decrypt(str, 6);
-}
