@@ -10,7 +10,9 @@
 <body>
    <label for="Name">Input text to be encrypted</label> 
    <input type="text" id="Name">
-   <button @click="handleClick()"> Encrypt </button>
-   <h4 id="encryptedName"></h4>
+   <button onclick="handleClick()"> Encrypt </button>
+   <h4>Encrypted Text: <span id="encryptedName"></span> </h4>
+   <button onclick="decryptText()"> Decrypt </button>
+   <h4>Decrypted Text: <span id="decryptedName"></span> </h4>
 </body>
 </html>
