@@ -6,12 +6,15 @@ const handleClick = (salt) => {
     const applySaltToChar = (code) =>
       textToChars(salt).reduce((a, b) => a ^ b, code);
 
-    document.getElementById("encryptedName").innerText = str
+     const cipher = str
      .split("")
       .map(textToChars)
       .map(applySaltToChar)
       .map(byteHex)
       .join("");
+      document.getElementById("decryptedName").innerText = " ";
+      document.getElementById("encryptedName").innerText = cipher
+      return cipher
 };
 
 const decryptText = (salt) => {
@@ -21,10 +24,12 @@ const decryptText = (salt) => {
     const applySaltToChar = (code) =>
       textToChars(salt).reduce((a, b) => a ^ b, code);
 
-  document.getElementById("decryptedName").innerText = str
+   const decipher = str
     .match(/.{1,2}/g)
     .map((hex) => parseInt(hex, 16))
     .map(applySaltToChar)
     .map((charCode) => String.fromCharCode(charCode))
     .join("");
+    document.getElementById("decryptedName").innerText = decipher
+    return decipher
     };
